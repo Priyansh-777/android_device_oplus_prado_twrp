@@ -7,8 +7,12 @@
 
 DEVICE_PATH := device/oplus/prado
 
-# For building with minimal manifest
+# Fix build errors with missing dependencies
 ALLOW_MISSING_DEPENDENCIES := true
+BUILD_BROKEN_USES_NETWORK := true
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
 
 # A/B
 AB_OTA_UPDATER := true
@@ -42,6 +46,9 @@ BOARD_KERNEL_IMAGE_NAME := Image
 TARGET_KERNEL_CONFIG := prado_defconfig
 TARGET_KERNEL_SOURCE := kernel/oplus/prado
 
+# Use LZ4 Ramdisk compression instead of GZIP for faster boot
+BOARD_RAMDISK_USE_LZ4 := true
+
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
@@ -62,7 +69,11 @@ BOARD_OPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := system system system_ext system
 BOARD_OPLUS_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
 
 # Platform
-TARGET_BOARD_PLATFORM := volcano
+TARGET_BOOTLOADER_BOARD_NAME  := prado
+TARGET_BOARD_PLATFORM         := volcano
+TARGET_BOARD_PLATFORM_GPU     := qcom-adreno810
+TARGET_USES_UEFI              := true
+BOARD_USES_QCOM_HARDWARE      := true
 
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
@@ -80,6 +91,16 @@ BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
 PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
+
+# Display specifications
+TARGET_SCREEN_HEIGHT  := 2772
+TARGET_SCREEN_DENSITY := 450
+TARGET_SCREEN_WIDTH   := 1272
+# Filesystems
+TARGET_USERIMAGES_USE_EXT4    := true
+TARGET_USERIMAGES_USE_F2FS    := true
+TARGET_USES_MKE2FS            := true
+
 
 # TWRP Configuration
 TW_THEME := portrait_hdpi
