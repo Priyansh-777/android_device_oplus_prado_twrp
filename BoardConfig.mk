@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/oplus/ossi
+DEVICE_PATH := device/oplus/prado
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
@@ -18,7 +18,7 @@ AB_OTA_PARTITIONS += \
     system \
     odm \
     system_ext
-BOARD_USES_RECOVERY_AS_BOOT := true
+BOARD_USES_RECOVERY_AS_BOOT := false
 
 # Architecture
 TARGET_ARCH := arm64
@@ -39,8 +39,8 @@ TARGET_NO_BOOTLOADER := true
 BOARD_BOOTIMG_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 BOARD_KERNEL_IMAGE_NAME := Image
-TARGET_KERNEL_CONFIG := ossi_defconfig
-TARGET_KERNEL_SOURCE := kernel/oplus/ossi
+TARGET_KERNEL_CONFIG := prado_defconfig
+TARGET_KERNEL_SOURCE := kernel/oplus/prado
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
