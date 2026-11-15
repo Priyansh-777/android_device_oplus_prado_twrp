@@ -28,8 +28,12 @@ PRODUCT_STATIC_BOOT_CONTROL_HAL := \
     libcutils
 
 PRODUCT_PACKAGES += \
+    qcom_decrypt \
+    qcom_decrypt_fbe
     otapreopt_script \
     cppreopts.sh \
     update_engine \
     update_verifier \
     update_engine_sideload
+
+BOARD_USES_QCOM_FBE_DECRYPTION := true
