@@ -1,0 +1,114 @@
+
+name: Build OrangeFox Recovery 16.0
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_target:
+        description: "Image target (confirm partition layout first)"
+        required: true
+        type: choice
+        options:
+          - recoveryimage
+          - bootimage
+          - vendorbootimage
+        default: recoveryimage
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+
+    steps:
+      - name: Free runner disk space
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          df -h /
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git-core gnupg flex bison build-essential \
+            zip unzip curl rsync python3 python-is-python3 \
+            libssl-dev libelf-dev bc ccache \
+            libncurses-dev zlib1g-dev
+
+      - name: Install repo tool
+        run: |
+          mkdir -p "$HOME/bin"
+          curl -fsSL \
+            https://storage.googleapis.com/git-repo-downloads/repo \
+            -o "$HOME/bin/repo"
+          chmod +x "$HOME/bin/repo"
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Sync OrangeFox source
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/fox"
+          cd "$GITHUB_WORKSPACE/fox"
+
+          repo init \
+            -u https://gitlab.com/OrangeFox/sync.git \
+            -b fox_16.0
+
+          repo sync -c --no-clone-bundle --no-tags -j2
+
+      - name: Add device tree
+        run: |
+          cd "$GITHUB_WORKSPACE/fox"
+
+          git clone \
+            --depth=1 \
+            -b fox_16.0 \
+            https://github.com/Priyansh-777/android_device_oplus_prado_twrp.git \
+            device/oplus/prado
+
+          test -f device/oplus/prado/BoardConfig.mk
+          test -f device/oplus/prado/AndroidProducts.mk
+          test -f device/oplus/prado/twrp_prado.mk
+          test -f device/oplus/prado/prebuilt/kernel
+
+      - name: Build OrangeFox
+        env:
+          BUILD_TARGET: ${{ inputs.build_target }}
+        run: |
+          cd "$GITHUB_WORKSPACE/fox"
+
+          export ALLOW_MISSING_DEPENDENCIES=true
+          export FOX_BUILD_DEVICE=prado
+          export LC_ALL=C
+
+          source build/envsetup.sh
+
+          lunch twrp_prado-bp2a-eng
+
+          mka adbd "$BUILD_TARGET"
+
+      - name: Collect build output
+        if: always()
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+          find "$GITHUB_WORKSPACE/fox/out/target/product/prado" \
+            -maxdepth 1 -type f \
+            \( -name "*.img" -o -name "*.zip" \) \
+            -exec cp -v {} "$GITHUB_WORKSPACE/artifacts/" \; \
+            2>/dev/null || true
+
+          ls -lh "$GITHUB_WORKSPACE/artifacts" || true
+
+      - name: Upload recovery artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orangefox-prado-fox-16.0
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 7
