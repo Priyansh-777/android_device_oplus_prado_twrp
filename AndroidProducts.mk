@@ -8,7 +8,6 @@
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/twrp_prado.mk
 
-COMMON_LUNCH_CHOICES := \
-    twrp_prado-user \
-    twrp_prado-userdebug \
-    twrp_prado-eng
+PRODUCT_MAKEFILES := $(LOCAL_DIR)/twrp_prado.mk
+
+COMMON_LUNCH_CHOICES := twrp_prado-bp2a-eng
