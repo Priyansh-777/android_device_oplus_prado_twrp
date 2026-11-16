@@ -27,6 +27,23 @@ PRODUCT_STATIC_BOOT_CONTROL_HAL := \
     libz \
     libcutils
 
+# TWRP - Specifics
+TW_THEME                := portrait_hdpi
+TW_DEFAULT_LANGUAGE     := en
+TW_USE_TOOLBOX          := true
+TW_INCLUDE_NTFS_3G      := true
+TW_INCLUDE_RESETPROP    := true
+TW_INCLUDE_LIBRESETPROP := true
+TW_EXTRA_LANGUAGES      := true
+TW_EXCLUDE_APEX         := true
+TW_INCLUDE_FASTBOOTD    := true
+TWRP_INCLUDE_LOGCAT     := true
+TW_INCLUDE_PYTHON       := true
+TW_INCLUDE_WIFI         := true
+TW_NO_SCREEN_BLANK      := true
+TW_FRAMERATE            := 120
+
+
 PRODUCT_PACKAGES += \
     qcom_decrypt \
     qcom_decrypt_fbe
