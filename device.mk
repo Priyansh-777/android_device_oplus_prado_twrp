@@ -37,3 +37,5 @@ PRODUCT_PACKAGES += \
     update_engine_sideload
 
 BOARD_USES_QCOM_FBE_DECRYPTION := true
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += $(DEVICE_PATH)
