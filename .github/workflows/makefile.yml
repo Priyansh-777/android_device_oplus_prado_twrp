@@ -1,0 +1,60 @@
+ name: OrangeFox Recovery Builder
+
+  on:
+    workflow_dispatch:
+      inputs:
+        BRANCH:
+          description: 'Branch'
+          required: true
+          default: 'fox_16.0'
+        DEVICE:
+          description: 'Device'
+          required: true
+          default: 'prado'
+        OEM:
+          description: 'OEM'
+          required: true
+          default: 'oplus'
+
+  jobs:
+    build:
+      runs-on: ubuntu-22.04
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Install Dependencies
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev
+  x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip python3 bc rsync
+
+        - name: Initialize Repo
+          run: |
+            mkdir ~/bin
+            curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+            chmod a+x ~/bin/repo
+            export PATH=~/bin:$PATH
+            mkdir workspace
+            cd workspace
+            repo init -u https://gitlab.com/OrangeFox/Manifest -b ${{ github.event.inputs.BRANCH }}
+            repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+
+        - name: Clone Device Tree
+          run: |
+            cd workspace
+            git clone https://github.com/Priyansh-777/android_device_oplus_prado_twrp -b fox_16.0 device/${{ github.event.inputs.OEM }}/${{
+  github.event.inputs.DEVICE }}
+
+        - name: Build Recovery
+          run: |
+            cd workspace
+            source build/envsetup.sh
+            lunch twrp_${{ github.event.inputs.DEVICE }}-userdebug
+            mka recoveryimage
+
+        - name: Upload Artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: OrangeFox-Recovery-${{ github.event.inputs.DEVICE }}
+            path: workspace/out/target/product/${{ github.event.inputs.DEVICE }}/recovery.img
