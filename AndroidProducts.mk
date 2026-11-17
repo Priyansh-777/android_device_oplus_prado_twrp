@@ -5,16 +5,17 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/fox_prado.mk
 
 COMMON_LUNCH_CHOICES := \
-    fox_prado-eng
-    fox_prado-ap2a-eng
-    fox_prado-bp2a-eng
-    fox_prado-user
-    fox_prado-userdebug
-    fox_prado-eng
-    twrp_prado-user
-    twrp_prado-userdebug
+    fox_prado-eng \
+    fox_prado-ap2a-eng \
+    fox_prado-bp2a-eng \
+    fox_prado-user \
+    fox_prado-userdebug \
+    fox_prado-eng \
+    twrp_prado-user \
+    twrp_prado-userdebug \
     twrp_prado-eng
