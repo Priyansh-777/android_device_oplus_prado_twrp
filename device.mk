@@ -6,6 +6,13 @@
 #
 
 LOCAL_PATH := device/oplus/prado
+
+PRODUCT_NAME := fox_prado
+PRODUCT_DEVICE := prado
+PRODUCT_BRAND := OnePlus
+PRODUCT_MODEL := OnePlus Nord CE6
+PRODUCT_MANUFACTURER := OnePlus
+
 # A/B
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
