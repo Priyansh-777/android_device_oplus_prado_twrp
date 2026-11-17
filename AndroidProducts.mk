@@ -15,7 +15,4 @@ COMMON_LUNCH_CHOICES := \
     fox_prado-bp2a-eng \
     fox_prado-user \
     fox_prado-userdebug \
-    fox_prado-eng \
-    twrp_prado-user \
-    twrp_prado-userdebug \
-    twrp_prado-eng
+    fox_prado-eng 
