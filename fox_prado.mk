@@ -5,8 +5,15 @@
 # The build vars for OrangeFox can be found here:
 # https://gitlab.com/OrangeFox/infrastructure/doc/-/blob/main/dev/build_vars.md
 
+PRODUCT_NAME := fox_prado
+PRODUCT_DEVICE := prado
+PRODUCT_BRAND := OnePlus
+PRODUCT_MODEL := OnePlus Nord CE6
+PRODUCT_MANUFACTURER := OnePlus
+
 # OrangeFox maintainer
 OF_MAINTAINER := priyansh-777
+
 
 
 
