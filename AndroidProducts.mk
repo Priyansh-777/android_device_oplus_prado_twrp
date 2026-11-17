@@ -6,8 +6,7 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/twrp_prado.mk
+    $(LOCAL_DIR)/fox_prado.mk
 
-PRODUCT_MAKEFILES := $(LOCAL_DIR)/twrp_prado.mk
-
-COMMON_LUNCH_CHOICES := twrp_prado-bp2a-eng
+COMMON_LUNCH_CHOICES := \
+    fox_prado-ap2a-eng
