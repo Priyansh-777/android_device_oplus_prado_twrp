@@ -11,6 +11,7 @@ PRODUCT_MAKEFILES := \
 COMMON_LUNCH_CHOICES := \
     fox_prado-eng
     fox_prado-ap2a-eng
+    fox_prado-bp2a-eng
     fox_prado-user
     fox_prado-userdebug
     fox_prado-eng
