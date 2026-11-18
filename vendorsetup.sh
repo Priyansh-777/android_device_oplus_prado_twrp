@@ -89,8 +89,3 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ];
     fi
 fi
 
-
-
-add_lunch_combo twrp_prado-user
-add_lunch_combo twrp_prado-userdebug
-add_lunch_combo twrp_prado-eng
